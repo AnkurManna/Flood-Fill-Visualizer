@@ -1,0 +1,169 @@
+<html>
+    <head>
+        <meta charset="utf-8"> 
+        <title>Drawing App</title>
+        <link rel="stylesheet" href="style.css"/>
+    </head>
+    <h1>Canvas</h1>
+    <form action="" method="post">
+        <input type="text" id="row" placeholder="Row"/>
+        <input type="text" id="column" placeholder="Column"/>
+        <button id="send" type="button" placeholder="Submit" onclick="snd()"></button>
+
+        
+       
+    </form>
+    <script type="text/javascript">
+   
+        function snd(){
+    //console.log(5);
+    var row = document.getElementById('row').value;
+   // console.log(row);
+    var column = document.getElementById('column').value;
+    //console.log(column);
+    
+    let idx=0;
+    var graphForm = document.createElement("form");
+    
+    graphForm.setAttribute("id","graphForm");
+    graphForm.setAttribute("action","");
+    graphForm.setAttribute("method","post");
+    document.body.appendChild(graphForm);
+    for(let i = 0;i<row;i++)
+    {
+        var nwrow = document.createElement("div");
+        nwrow.setAttribute('id','rw'+i);
+        document.getElementById("graphForm").appendChild(nwrow);
+        for(let j=0;j<column;j++)
+        {
+            var currentRow = document.getElementById('rw'+i);
+           // console.log(currentRow);
+            var nw = document.createElement("input");
+            nw.innerHTML = "value";
+            nw.setAttribute('style',"background-color:#3f3f;");
+            nw.setAttribute('id','cell'+idx);
+            currentRow.appendChild(nw);
+            idx++;
+        }
+    }
+
+    var btn = document.createElement("button");
+    btn.setAttribute('id','input_submit');
+    btn.setAttribute('style',"height:50px;width:100px;");
+        
+   // btn.setAttribute('onclick',getGraph);
+  //  btn.addEventListener('click',getGraph);
+    btn.setAttribute('type',"button");
+    //btn.setAttribute('width',100px);
+    btn.onclick = function()
+    {
+        //alert("here");
+        var row = document.getElementById('row').value;
+       // console.log(row);
+        var column = document.getElementById('column').value;
+        //console.log(column);
+        let idx=0;
+        let start;
+        let arr=[];
+        for(let i=0;i<row;i++)
+        {
+            for(let j=0;j<column;j++)
+            {
+                var cell = 'cell'+idx;
+                console.log(cell);
+                var val = document.getElementById(cell).value;
+//console.log(idx);
+                console.log(val);
+                if(val==2)
+                {
+                    start = idx;
+                    var curcell = document.getElementById(cell);
+                    curcell.setAttribute('style',"background-color:red");
+                }
+                else if(val==0)
+                {
+                    var curcell = document.getElementById(cell);
+                    curcell.setAttribute('style',"background-color:black");
+                }
+                idx++;
+                arr.push(val);
+            }
+        }
+
+        var Start = document.createElement("button");
+        Start.innerHTML = "Start";
+        Start.onclick = function()
+        {
+            let que = [start];
+            //que.shift() removes the first element
+            //que.length length of the array
+            let dx = [1,-1,0,0];
+            let dy = [0,0,1,-1];
+            let order=[];
+            let visit=[];
+            for(let i=0;i<row;i++)
+            {
+                for(let j=0;j<column;j++)
+                {
+                    visit.push(0);
+                }
+            }
+            while(que.length>0)
+            {
+                //console.log(que.length);
+                let cur = que[0];
+                visit[cur]=1;
+                que.shift();
+                let r = Math.trunc(cur/column);
+                let c = cur%column;
+                for(let dir=0;dir<4;dir++)
+                {
+                    let R = r + dx[dir];
+                    let C = c + dy[dir];
+                    if(R>=0&&R<row&&C>=0&&C<column)
+                    {
+                        let serial = R*column + C;
+                        console.log('R'+R);
+                        console.log('C'+C);
+                        let cell = 'cell'+serial;
+                        var curcell = document.getElementById(cell);
+                        console.log(curcell);
+                        if(curcell.value==1&&visit[serial]==0)
+                        {
+                            order.push(serial);
+                            que.push(serial);
+                        }
+                    }
+                }
+            }
+            for(let i=0;i<order.length;i++)
+            console.log(order[i]);
+            
+            function changeColor(id)
+            {
+                if(id>=order.length)
+                {
+                    return ;
+                }
+                var curcell = document.getElementById('cell'+order[id]);
+                curcell.setAttribute('style',"background-color:blue");
+                setTimeout(function(){
+                    changeColor(id+1);
+                },500);
+                
+
+            }
+           changeColor(0);
+        };
+        document.body.appendChild(Start);
+    };
+    document.getElementById("graphForm").appendChild(btn);
+
+            //console.log(row*column);
+}
+/*
+var inputGraph = document.getElementById("input_submit").onclick =*/ 
+
+ 
+    </script>
+</html>
