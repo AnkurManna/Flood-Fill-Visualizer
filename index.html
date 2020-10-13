@@ -4,19 +4,25 @@
         <title>Drawing App</title>
         <link rel="stylesheet" href="style.css"/>
     </head>
-    <h1>Canvas</h1>
-    <form action="" method="post">
+    <h1>Flood Fill Visualizer</h1>
+    <h3>Enter Row and Column Numbers Respectively</h3>
+    <form id="frm" action="" method="post">
+        <div id="inp">
         <input type="text" id="row" placeholder="Row"/>
         <input type="text" id="column" placeholder="Column"/>
-        <button id="send" type="button" placeholder="Submit" onclick="snd()"></button>
-
-        
+        </div>
+        <br>
+        <button id="send" type="button" placeholder="Submit" onclick="snd()">Submit</button>
        
     </form>
+    <h3 id="after_submit">Enter 1 for Unblocked Cells And 0 for blocked cells and 2 for Starting vertex</h3>
+    
     <script type="text/javascript">
    
         function snd(){
     //console.log(5);
+    var intro = document.getElementById('after_submit');
+    intro.setAttribute('style','visibility:visible');
     var row = document.getElementById('row').value;
    // console.log(row);
     var column = document.getElementById('column').value;
@@ -40,8 +46,9 @@
            // console.log(currentRow);
             var nw = document.createElement("input");
             nw.innerHTML = "value";
-            nw.setAttribute('style',"background-color:#3f3f;");
+            nw.setAttribute('style',"background-color:#b4e1fa;");
             nw.setAttribute('id','cell'+idx);
+            nw.classList.add("cell");
             currentRow.appendChild(nw);
             idx++;
         }
@@ -153,6 +160,7 @@
                 
 
             }
+            
            changeColor(0);
         };
         document.body.appendChild(Start);
